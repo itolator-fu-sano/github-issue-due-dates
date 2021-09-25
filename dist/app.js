@@ -37,7 +37,7 @@ const github_1 = require("@actions/github");
 const Octokit_1 = __importDefault(require("./integrations/Octokit"));
 const dateUtils_1 = require("./utils/dateUtils");
 const constants_1 = require("./constants");
-exports.run = () => __awaiter(void 0, void 0, void 0, function* () {
+const run = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const githubToken = core.getInput('GH_TOKEN');
         if (!githubToken) {
@@ -47,7 +47,7 @@ exports.run = () => __awaiter(void 0, void 0, void 0, function* () {
         const issues = yield ok.listAllOpenIssues(github_1.context.repo.owner, github_1.context.repo.repo);
         const results = yield ok.getIssuesWithDueDate(issues);
         for (const issue of results) {
-            const daysUtilDueDate = yield dateUtils_1.datesToDue(issue.due);
+            const daysUtilDueDate = yield (0, dateUtils_1.datesToDue)(issue.due);
             if (daysUtilDueDate <= 7 && daysUtilDueDate > 0) {
                 yield ok.addLabelToIssue(github_1.context.repo.owner, github_1.context.repo.repo, issue.number, [constants_1.NEXT_WEEK_TAG_NAME]);
             }
@@ -62,8 +62,9 @@ exports.run = () => __awaiter(void 0, void 0, void 0, function* () {
         };
     }
     catch (e) {
-        core.setFailed(e.message);
+        core.setFailed(`${e}`);
         throw e;
     }
 });
-exports.run();
+exports.run = run;
+(0, exports.run)();

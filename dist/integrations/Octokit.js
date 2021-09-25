@@ -8,16 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const github_1 = require("@actions/github");
-const front_matter_1 = __importDefault(require("front-matter"));
 const constants_1 = require("../constants");
 class Octokit {
     constructor(token) {
-        this.client = github_1.getOctokit(token);
+        this.client = (0, github_1.getOctokit)(token);
     }
     listAllOpenIssues(owner, repo) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -70,12 +66,16 @@ class Octokit {
     getIssuesWithDueDate(rawIssues) {
         return __awaiter(this, void 0, void 0, function* () {
             return rawIssues.filter(issue => {
-                // TODO: Move into utils
-                const meta = front_matter_1.default(issue.body);
-                const due = meta.attributes && (meta.attributes.due || meta.attributes.Due);
-                if (meta.attributes && due) {
-                    return Object.assign(issue, { due });
+                let due = issue.title.match(/\(期限\s*[:：](.+)\)/);
+                if (due) {
+                    return Object.assign(issue, { due: due[1].trim() });
                 }
+                // TODO: Move into utils
+                //const meta: any = fm(issue.body);
+                //const due = meta.attributes && (meta.attributes.due || meta.attributes.Due);
+                //if (meta.attributes && due) {
+                //  return Object.assign(issue, {due});
+                //}
             });
         });
     }

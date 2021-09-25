@@ -28,7 +28,7 @@ export const run = async () => {
       issuesProcessed: results.length,
     }
   } catch (e) {
-    core.setFailed(e.message);
+    core.setFailed(`${e}`);
     throw e;
   }
 };
