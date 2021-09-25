@@ -57,7 +57,7 @@ export default class Octokit {
       due = issue.title.match(/\(期限\s*[:：](.+)\)/);
       
       if (rslt) {
-        return Object.assign(issue, {due[1]});
+        return Object.assign(issue, {due[1].trim()});
       }
       
       // TODO: Move into utils
