@@ -54,11 +54,10 @@ export default class Octokit {
 
   async getIssuesWithDueDate(rawIssues: any[]) {
     return rawIssues.filter(issue => {
-      rslt = issue.title.match(/\(期限\s*[:：](.+)\)/g );
-      const due = rslt[1];
+      due = issue.title.match(/ \(期限\s*[:：](.+)\)/ );
       
-      if (due) {
-        return Object.assign(issue, {due});
+      if (rslt) {
+        return Object.assign(issue, {due[1]});
       }
       
       // TODO: Move into utils
