@@ -12,7 +12,6 @@ export const run = async () => {
     }
 
     const ok = new Octokit(githubToken);
-    /*
     const issues = await ok.listAllOpenIssues(context.repo.owner, context.repo.repo);
     const results = await ok.getIssuesWithDueDate(issues);
     for (const issue of results) {
@@ -24,7 +23,6 @@ export const run = async () => {
         await ok.addLabelToIssue(context.repo.owner, context.repo.repo, issue.number, [OVERDUE_TAG_NAME]);
       }
     }
-    */
     return {
       ok: true,
       issuesProcessed: results.length,
