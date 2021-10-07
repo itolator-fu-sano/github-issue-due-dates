@@ -54,7 +54,13 @@ export default class Octokit {
 
   async getIssuesWithDueDate(rawIssues: any[]) {
     return rawIssues.filter(issue => {
+      // タイトルに「期限:」が含まれる
       let due = issue.title.match(/\(期限\s*[:：](.+)\)/);
+
+      if (due == null) {
+        // 本文に「完了予定日:」が含まれる
+        due = issue.body.match(/[\n\r]完了予定日\s*[:：](.*)[\n\r]/);
+      }
 
       if (due) {
         return Object.assign(issue, {due: due[1].trim()});
