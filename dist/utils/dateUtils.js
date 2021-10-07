@@ -8,6 +8,7 @@ const moment_1 = __importDefault(require("moment"));
 const datesToDue = (date) => {
     const eventDate = (0, moment_1.default)(date);
     const today = (0, moment_1.default)();
+    today.add(9, 'hours');
     return eventDate.diff(today, 'days');
 };
 exports.datesToDue = datesToDue;
