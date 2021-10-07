@@ -48,7 +48,11 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
         const results = yield ok.getIssuesWithDueDate(issues);
         for (const issue of results) {
             const daysUtilDueDate = yield (0, dateUtils_1.datesToDue)(issue.due);
-            if (daysUtilDueDate <= 7 && daysUtilDueDate > 0) {
+            if (daysUtilDueDate <= 30 && daysUtilDueDate > 7) {
+                yield ok.addLabelToIssue(github_1.context.repo.owner, github_1.context.repo.repo, issue.number, [constants_1.NEXT_MONTH_TAG_NAME]);
+            }
+            else if (daysUtilDueDate <= 7 && daysUtilDueDate > 0) {
+                yield ok.removeLabelFromIssue(github_1.context.repo.owner, github_1.context.repo.repo, constants_1.NEXT_MONTH_TAG_NAME, issue.number);
                 yield ok.addLabelToIssue(github_1.context.repo.owner, github_1.context.repo.repo, issue.number, [constants_1.NEXT_WEEK_TAG_NAME]);
             }
             else if (daysUtilDueDate <= 0) {
