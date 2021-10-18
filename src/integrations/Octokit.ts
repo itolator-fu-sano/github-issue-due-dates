@@ -59,7 +59,9 @@ export default class Octokit {
 
       if (due == null) {
         // 本文に「完了予定日:」が含まれる
-        due = issue.body.match(/[\n\r]完了予定日\s*[:：](.*)[\n\r]/);
+        if (issue.body != null) {
+          due = issue.body.match(/[\n\r]完了予定日\s*[:：](.*)[\n\r]/);
+        }
       }
 
       if (due) {
