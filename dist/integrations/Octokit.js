@@ -67,10 +67,6 @@ class Octokit {
         return __awaiter(this, void 0, void 0, function* () {
             return rawIssues.filter(issue => {
                 // タイトルに「期限:」が含まれる
-                console.log("---");
-                console.log(issue);
-                console.log(issue.title);
-                console.log(issue.body);
                 let due = issue.title.match(/\(期限\s*[:：](.+)\)/);
                 if (due == null) {
                     // 本文に「完了予定日:」が含まれる
